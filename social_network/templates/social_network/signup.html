@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+</head>
+<body>
+    <h1>Register A New Account</h1>
+    <div style="display: flex;">
+        <form action="/signup" style="display: flex; flex-direction: column; align-items: flex-end; width: 50%;" method="post">
+            {% csrf_token %}
+            <div>
+                <label for="fname">First Name</label>
+                <input type="text" name="fname" id="fname" placeholder="Type your first name...">
+            </div><br>
+            <div>
+                <label for="lname">Last Name</label>
+                <input type="text" name="lname" id="lname" placeholder="Type your last name...">
+            </div><br>
+    
+            <div style="display: flex; padding-bottom: 2em;">
+                <div>
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" placeholder="Create a username...">
+                </div>
+            </div><br>
+    
+            <div>
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" placeholder="Type a valid email address..."> 
+            </div><br>
+    
+            <div style="display: flex; align-items: flex-start;">
+                
+                <div style="display: flex;  flex-direction: column; align-items: flex-end;">
+                    <div>
+                        <label for="pass1">Password</label>
+                        <input type="password" name="pass1" id="pass1" placeholder="Type a strong password..."> <br><br>
+                    </div>
+    
+                    <div>
+                        <label for="pass2">Confirm Password</label>
+                        <input type="password" name="pass2" id="pass2" placeholder="Retype your password...">
+                    </div>
+                </div>
+            </div>
+            <br>
+            <button type="submit">Sign Up</button>
+        </form>
+        <div style="padding: 0.5em;">
+            <div style="padding: 4.4em 0.5em 0.5em 0.5em;">
+                <span>Only use letters</span><br>
+                <span>Only use numbers</span><br>
+                <span>Should be available</span>
+            </div>
+            <div style="padding: 3em 0.5em 0.5em 0.5em;">
+                <span>Must be at least 8 characters</span><br>
+                <span>Must contain at least one number</span><br>
+                <span>Must contain at least one special character</span><br>
+                <span>Must contain at least one uppercase letter</span><br>
+                <span>Must contain at least one lowercase letter</span><br>
+                <span>Must not contain any spaces</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
