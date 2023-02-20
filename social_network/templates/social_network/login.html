@@ -1,13 +1,15 @@
+{% load static tailwind_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% tailwind_css %}
     <title>Log In</title>
 </head>
 <body>
-    <h1>Log In</h1>
+    <span class="text-xl">Log In</span>
     <div style="display: flex;">
         <form action="/login" style="display: flex; flex-direction: column; align-items: flex-end; width: 50%;" method="post">
             {% csrf_token %}

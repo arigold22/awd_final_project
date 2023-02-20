@@ -8,7 +8,20 @@
 </head>
 <body>
     {% if user.is_authenticated %}
-    <h1>Hello {{ fname }} </h1>
+
+    <div style="display: flex; align-items: flex-start; justify-content: flex-start;">
+        <div style="position: relative; display: block; width: 100px; height: 100px;">
+            {% load static %}
+            <img src="{{ profile_data.profile_image.url }}" alt="Profile Picture" width=100px>  
+            <button type="button">Edit Profile</button>
+        </div>
+        <div style="display: flex; flex-direction: column; padding-left: 10px; ">
+            <span style="font-size: 1.5em;">{{ fname }} {{ lname }}</span>
+        <span style="font-size: 1em;">@{{ username }}</span>
+        <span>{{ profile_data.profile_bio }}</span>
+        </div>
+    </div>
+    
     {% endif %}
 </body>
 </html>
