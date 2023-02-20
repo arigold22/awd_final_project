@@ -1,69 +1,145 @@
+{% load static tailwind_tags %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    {% tailwind_css %}
+    <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="../static/js/input_handling.js"></script>
     <title>Sign Up</title>
-</head>
-<body>
-    <h1>Register A New Account</h1>
-    <div style="display: flex;">
-        <form action="/signup" style="display: flex; flex-direction: column; align-items: flex-end; width: 50%;" method="post">
-            {% csrf_token %}
-            <div>
-                <label for="fname">First Name</label>
-                <input type="text" name="fname" id="fname" placeholder="Type your first name...">
-            </div><br>
-            <div>
-                <label for="lname">Last Name</label>
-                <input type="text" name="lname" id="lname" placeholder="Type your last name...">
-            </div><br>
-    
-            <div style="display: flex; padding-bottom: 2em;">
-                <div>
-                    <label for="username">Username</label>
-                    <input type="text" name="username" id="username" placeholder="Create a username...">
-                </div>
-            </div><br>
-    
-            <div>
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email" placeholder="Type a valid email address..."> 
-            </div><br>
-    
-            <div style="display: flex; align-items: flex-start;">
-                
-                <div style="display: flex;  flex-direction: column; align-items: flex-end;">
-                    <div>
-                        <label for="pass1">Password</label>
-                        <input type="password" name="pass1" id="pass1" placeholder="Type a strong password..."> <br><br>
-                    </div>
-    
-                    <div>
-                        <label for="pass2">Confirm Password</label>
-                        <input type="password" name="pass2" id="pass2" placeholder="Retype your password...">
-                    </div>
-                </div>
-            </div>
-            <br>
-            <button type="submit">Sign Up</button>
-        </form>
-        <div style="padding: 0.5em;">
-            <div style="padding: 4.4em 0.5em 0.5em 0.5em;">
-                <span>Only use letters</span><br>
-                <span>Only use numbers</span><br>
-                <span>Should be available</span>
-            </div>
-            <div style="padding: 3em 0.5em 0.5em 0.5em;">
-                <span>Must be at least 8 characters</span><br>
-                <span>Must contain at least one number</span><br>
-                <span>Must contain at least one special character</span><br>
-                <span>Must contain at least one uppercase letter</span><br>
-                <span>Must contain at least one lowercase letter</span><br>
-                <span>Must not contain any spaces</span>
-            </div>
+  </head>
+  <body>
+    <h1 class="pt-8 pl-8 pr-8 text-xl font-bold">Register A New Account</h1>
+    <div style="display: flex">
+      <form
+        action="/signup"
+        class="flex flex-col items-start p-8"
+        method="post"
+      >
+        {% csrf_token %}
+        <div>
+          <label for="fname" class="text-lg">First Name</label>
+          <input
+            type="text"
+            name="fname"
+            id="fname"
+            placeholder="Type your first name..."
+            class="ml-6 p-2"
+          />
         </div>
+        <br />
+        <div>
+          <label for="lname" class="text-lg">Last Name</label>
+          <input
+            type="text"
+            name="lname"
+            id="lname"
+            placeholder="Type your last name..."
+            class="ml-6 p-2"
+          />
+        </div>
+        <br />
+
+        <div class="flex pb-2">
+          <label for="username" class="text-lg">Username</label>
+          <div class="pl-2 ml-6">
+            <input
+              type="text"
+              name="username"
+              id="username"
+              placeholder="Create a username..."
+              class="p-2"
+              onchange="usernameCheck();"
+              onkeypress="this.onchange();"
+              onpaste="this.onchange();"
+              oninput="this.onchange();"
+            />
+            <div class="pt-2 text-slate-400">
+              <div id="usernameLetters">
+                <i class="fa fa-xmark" id="usernameLettersCross"></i>
+                <i
+                  class="fa fa-check"
+                  id="usernameLettersTick"
+                  style="display: none"
+                ></i>
+                <span>Only use letters and Numbers</span>
+              </div>
+              <div id="usernameLength">
+                <i class="fa fa-xmark" id="usernameLengthCross"></i>
+                <i
+                  class="fa fa-check"
+                  id="usernameLengthTick"
+                  style="display: none"
+                ></i>
+                <span>Minimum 4 characters and Maximum 16 characters</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex pb-2 pt-4">
+          <label for="email" class="text-lg">Email</label>
+          <input
+            class="p-2"
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Type a valid email address..."
+            style="margin-left: 4.6em"
+          />
+        </div>
+
+        <div class="flex pb-2 pt-2">
+          <label for="pass1" class="text-lg">Password</label>
+          <div class="pl-10">
+            <input
+              type="password"
+              name="pass1"
+              id="pass1"
+              placeholder="Type a strong password..."
+              class="p-2"
+            />
+            <div class="pt-2 text-slate-400">
+              <i class="fa fa-xmark"></i>
+              <!-- <i class="fa fa-check"></i> -->
+              <span>Must be at least 8 characters</span><br />
+              <i class="fa fa-xmark"></i>
+              <span>Must contain at least one number</span><br />
+              <i class="fa fa-xmark"></i>
+              <span>Must contain at least one special character</span><br />
+              <i class="fa fa-xmark"></i>
+              <span>Must contain at least one uppercase letter</span><br />
+              <i class="fa fa-xmark"></i>
+              <span>Must contain at least one lowercase letter</span><br />
+              <i class="fa fa-xmark"></i>
+              <span>Must not contain any spaces</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex mt-4">
+          <label for="pass2" class="text-lg"
+            >Confirm <br />
+            Password</label
+          >
+          <input
+            type="password"
+            name="pass2"
+            id="pass2"
+            placeholder="Retype your password..."
+            class="ml-10 p-2"
+          />
+        </div>
+        <button
+          type="submit"
+          class="mt-4 bg-sky-500 py-2 px-8 hover:bg-cyan-600 text-white font-bold border-none rounded-lg"
+          style="margin-left: 7.7em"
+        >
+          Sign Up
+        </button>
+      </form>
     </div>
-</body>
+  </body>
 </html>

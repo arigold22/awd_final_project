@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'social_network.apps.SocialNetworkConfig',
     'tailwind',
     'theme',
+    'fontawesomefree',
     'django_browser_reload',
     'django.contrib.admin',
     'django.contrib.auth',
