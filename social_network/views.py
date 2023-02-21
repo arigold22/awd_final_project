@@ -3,35 +3,27 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as dj_login, logout as dj_logout
 from .models import Profile
-
+from .forms import RegisterForm
 # Create your views here.
 
-def home(request):
+def home(request): 
     user = request.user
     if user.is_authenticated:
+        profile_data = Profile.objects.get(user=user)
         fname = user.first_name
-        return render(request, 'social_network/index.html', {'fname': fname})
+        context = {'fname': fname,'profile_data': profile_data, 'username': user.username}
+        return render(request, 'social_network/index.html', context)
     return render(request, 'social_network/index.html', {})
 
 def signup(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        fname = request.POST['fname']
-        lname = request.POST['lname']
-        email = request.POST['email']
-        pass1 = request.POST['pass1']
-        pass2 = request.POST['pass2']
-
-        myUser = User.objects.create_user(username, email, pass1)
-        myUser.first_name = fname
-        myUser.last_name = lname
-        
-        myUser.save()
-
-        messages.success(request, 'You are now registered and can log in')
-
-        return redirect('login')
-    return render(request, 'social_network/signup.html', {})
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = RegisterForm()
+    return render(request, 'social_network/signup.html', {'form': form})
 
 def login(request):
     if request.method == 'POST':

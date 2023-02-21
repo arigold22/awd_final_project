@@ -8,138 +8,75 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="../static/js/input_handling.js"></script>
+    <script src="../static/js/menu_handling.js"></script>
     <title>Sign Up</title>
   </head>
   <body>
-    <h1 class="pt-8 pl-8 pr-8 text-xl font-bold">Register A New Account</h1>
-    <div style="display: flex">
-      <form
-        action="/signup"
-        class="flex flex-col items-start p-8"
-        method="post"
-      >
+    {% include "./menu.html" %}
+    <div class="sm:p-8 p-2 flex flex-col items-center justify-center ">
+      <div style="box-shadow: 0px 0px 10px rgba(0,0,0,0.2);border-radius: 1%;" class="rounded-2xl flex flex-col items-center">
+        <h1 class="pt-8 pl-8 pr-8 text-xl font-bold">Register A New Account</h1>
+      <form id="form" method="post" action="/signup" class="sm:p-8 p-2 flex flex-col items-center" >
         {% csrf_token %}
-        <div>
-          <label for="fname" class="text-lg">First Name</label>
-          <input
-            type="text"
-            name="fname"
-            id="fname"
-            placeholder="Type your first name..."
-            class="ml-6 p-2"
-          />
-        </div>
-        <br />
-        <div>
-          <label for="lname" class="text-lg">Last Name</label>
-          <input
-            type="text"
-            name="lname"
-            id="lname"
-            placeholder="Type your last name..."
-            class="ml-6 p-2"
-          />
-        </div>
-        <br />
-
-        <div class="flex pb-2">
-          <label for="username" class="text-lg">Username</label>
-          <div class="pl-2 ml-6">
-            <input
-              type="text"
-              name="username"
-              id="username"
-              placeholder="Create a username..."
-              class="p-2"
-              onchange="usernameCheck();"
-              onkeypress="this.onchange();"
-              onpaste="this.onchange();"
-              oninput="this.onchange();"
-            />
-            <div class="pt-2 text-slate-400">
-              <div id="usernameLetters">
-                <i class="fa fa-xmark" id="usernameLettersCross"></i>
-                <i
-                  class="fa fa-check"
-                  id="usernameLettersTick"
-                  style="display: none"
-                ></i>
-                <span>Only use letters and Numbers</span>
-              </div>
-              <div id="usernameLength">
-                <i class="fa fa-xmark" id="usernameLengthCross"></i>
-                <i
-                  class="fa fa-check"
-                  id="usernameLengthTick"
-                  style="display: none"
-                ></i>
-                <span>Minimum 4 characters and Maximum 16 characters</span>
-              </div>
+          <div class="sm:w-96 w-54">
+            <div class="flex sm:flex-row sm:items-center sm:justify-between flex-col">
+              {{ form.firstname.label_tag }}
+              {{ form.firstname }}
             </div>
+            {{ form.firstname.errors }}
+            {{ form.firstname.help_text }}
           </div>
-        </div>
-
-        <div class="flex pb-2 pt-4">
-          <label for="email" class="text-lg">Email</label>
-          <input
-            class="p-2"
-            type="email"
-            name="email"
-            id="email"
-            placeholder="Type a valid email address..."
-            style="margin-left: 4.6em"
-          />
-        </div>
-
-        <div class="flex pb-2 pt-2">
-          <label for="pass1" class="text-lg">Password</label>
-          <div class="pl-10">
-            <input
-              type="password"
-              name="pass1"
-              id="pass1"
-              placeholder="Type a strong password..."
-              class="p-2"
-            />
-            <div class="pt-2 text-slate-400">
-              <i class="fa fa-xmark"></i>
-              <!-- <i class="fa fa-check"></i> -->
-              <span>Must be at least 8 characters</span><br />
-              <i class="fa fa-xmark"></i>
-              <span>Must contain at least one number</span><br />
-              <i class="fa fa-xmark"></i>
-              <span>Must contain at least one special character</span><br />
-              <i class="fa fa-xmark"></i>
-              <span>Must contain at least one uppercase letter</span><br />
-              <i class="fa fa-xmark"></i>
-              <span>Must contain at least one lowercase letter</span><br />
-              <i class="fa fa-xmark"></i>
-              <span>Must not contain any spaces</span>
+        <br>
+          <div class="sm:w-96 w-54">
+            <div class="flex sm:flex-row sm:items-center sm:justify-between flex-col">
+              {{ form.lastname.label_tag }}
+              {{ form.lastname }}
             </div>
+          {{ form.lastname.errors }}
+          {{ form.lastname.help_text }}
           </div>
+          <br>
+          <div class="sm:w-96 w-54">
+            <div class="flex sm:flex-row sm:items-center sm:justify-between flex-col">
+              {{ form.email.label_tag }}
+              {{ form.email }}
+            </div>
+          {{ form.email.errors }}
+          {{ form.email.help_text }}
+          </div>
+        <div class="pt-4 flex sm:flex-row sm:items-center sm:justify-between flex-col sm:w-96 w-54">
+          {{ form.username.label_tag }}
+          {{ form.username }}
         </div>
-
-        <div class="flex mt-4">
-          <label for="pass2" class="text-lg"
-            >Confirm <br />
-            Password</label
-          >
-          <input
-            type="password"
-            name="pass2"
-            id="pass2"
-            placeholder="Retype your password..."
-            class="ml-10 p-2"
-          />
+        <br>
+          <div class="w-4/6">
+            {{ form.username.errors }}
+            {{ form.username.help_text }}
+          </div>
+        <br>
+        <div class="pt-4 flex sm:flex-row sm:items-center sm:justify-between flex-col sm:w-96 w-54">
+          {{ form.password1.label_tag }}
+          {{ form.password1 }}  
         </div>
-        <button
-          type="submit"
-          class="mt-4 bg-sky-500 py-2 px-8 hover:bg-cyan-600 text-white font-bold border-none rounded-lg"
-          style="margin-left: 7.7em"
-        >
-          Sign Up
-        </button>
+        <br>
+        <div class="w-4/6">
+          {{ form.password1.errors }}
+          {{ form.password1.help_text }}
+        </div>
+        <br>
+        <div class="pt-4 flex sm:flex-row sm:items-center sm:justify-between flex-col sm:w-96 w-54">
+          {{ form.password2.label_tag }}
+          {{ form.password2 }}
+        </div>
+        <br>
+        <div class="w-4/6">
+          {{ form.password2.errors }}
+          {{ form.password2.help_text }}
+        </div>
+        <br>
+        <input type="submit" name="submit" value="Register" class="bg-sky-500 hover:bg-sky-700 text-white px-8 py-2 rounded-full ml-44 mt-4" style="cursor: pointer"/>
       </form>
+      </div>
     </div>
   </body>
 </html>

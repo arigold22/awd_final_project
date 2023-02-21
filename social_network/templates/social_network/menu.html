@@ -1,0 +1,138 @@
+<div id="navbar" class="bg-blue-800 text-white fixed w-full flex flex-row justify-between items-center" style="height: 3em; z-index: 2; padding: 0; margin: 0;">
+    <div onclick="toggleMenu()" style="cursor:  pointer;" class="md:hidden">
+        <div  style="padding: 0.5em;  padding-left: 1em;">
+        <i class="fa fa-bars"></i>
+    </div></div>
+    <div style="padding: 0.5em; font-weight: 600; text-transform: uppercase; " id="logo"><a href="/home">Social Media</a ></div>
+    <div id="leftNav" class="flex-1  justify-items-start items-center md:flex hidden">
+        <a href="/trending" class="hover:bg-sky-500" style="height: 3em; display: flex; flex-direction: column; justify-content: center; padding: 0.5em;">
+        <div >
+            <i class="fa fa-arrow-up-right-dots"></i>
+            <span>Trending</span>
+        </div>
+        </a>
+        {% if user.is_authenticated %}
+        <a href="/messages" class="hover:bg-sky-500" style="height: 3em; display: flex; flex-direction: column; justify-content: center; padding: 0.5em;">
+        <div style="padding: 0.5em;">
+            <i class="fa fa-message"></i>
+            <span>Messages</span>
+        </div>
+        </a>
+        {% endif %}
+        <a href="/search" class="hover:bg-sky-500" style="height: 3em; display: flex; flex-direction: column; justify-content: center; padding: 0.5em;">
+        <div style="padding: 0.5em;" >
+            <i class="fa fa-magnifying-glass"></i>
+            <span>Search</span>
+        </div>
+        </a>  
+    </div>
+    <div id="rightNav" class="justify-items-start items-center md:flex hidden">
+        {% if user.is_authenticated %}
+        <a href="/notifications" class="hover:bg-sky-500" style="height: 3em; display: flex; flex-direction: column; justify-content: center; padding: 0.5em;">
+        <div style="padding: 0.5em;">
+            <i class="fa fa-bell"></i>
+            <span>Notifications</span>
+        </div>
+        </a>
+        <a href="/profile" class="hover:bg-sky-500" style="height: 3em; display: flex; flex-direction: column; justify-content: center; padding: 0.5em;">
+        <div style="padding: 0.5em;">
+            <i class="fa fa-user"></i>
+            <span>Profile</span> 
+        </div>
+        </a>
+        <a href="/logout" class="hover:bg-sky-500" style="height: 3em; display: flex; flex-direction: column; justify-content: center; padding: 0.5em;">
+            <div style="padding: 0.5em; display: flex; justify-content: center;">
+                <div>
+                    <i class="fa fa-right-from-bracket"></i>
+                <span>Logout</span>
+                </div>
+            </div>
+        </a>
+        {% else %}
+        <a href="/login" class="hover:bg-sky-500" style="height: 3em; display: flex; flex-direction: column; justify-content: center; padding: 0.5em;">
+        <div style="padding: 0.5em;">
+            <i class="fa fa-right-to-bracket"></i>
+            <span>Log In</span>
+        </div>
+        </a>
+        <a href="/signup" class="hover:bg-sky-500" style="height: 3em; display: flex; flex-direction: column; justify-content: center; padding: 0.5em;">
+        <div style="padding: 0.5em;">
+            <i class="fa fa-user-plus"></i>
+            <span>Sign Up</span>
+        </div>
+        </a>
+        {% endif %}
+    </div>
+    <div  style="padding: 0.5em; padding-right: 1em;" class="md:hidden">
+        <i class="fa fa-magnifying-glass"></i>
+    </div>
+    </div>
+    <div id="mobileMenu" class="bg-blue-800 text-white hidden fixed w-full" style="z-index: 1;">
+    <div style="height: 3em;">
+        
+    </div>
+    
+    <a href="/trending" class="hover:bg-sky-500">
+    <div style="padding: 0.5em; display: flex; justify-content: center;">
+        <div>
+            <i class="fa fa-arrow-up-right-dots"></i>
+            <span>Trending</span>
+        </div>
+    </div>
+    </a>    
+    {% if user.is_authenticated %}
+    <a href="/messages" class="hover:bg-sky-500">
+    <div style="padding: 0.5em; display: flex; justify-content: center;">
+        <div>
+            <i class="fa fa-message"></i>
+            <span>Messages</span>
+        </div>
+    </div>
+        </a>
+    {% endif %}
+    
+    {% if user.is_authenticated %}
+    <a href="/notifications" class="hover:bg-sky-500">
+    <div style="padding: 0.5em;  display: flex; justify-content: center;">
+        <div>
+            <i class="fa fa-bell"></i>
+        <span>Notifications</span>
+        </div>
+    </div>
+    </a>
+    <a href="/profile" class="hover:bg-sky-500">
+        <div style="padding: 0.5em; display: flex; justify-content: center;">
+            <div>
+                <i class="fa fa-user"></i>
+            <span>Profile</span>
+            </div>
+        </div>
+    </a>
+    <a href="/logout" class="hover:bg-sky-500">
+        <div style="padding: 0.5em; display: flex; justify-content: center;">
+            <div>
+                <i class="fa fa-right-from-bracket"></i>
+            <span>Logout</span>
+            </div>
+        </div>
+    </a>
+    {% else %}
+    <a href="/login" class="hover:bg-sky-500">
+    <div style="padding: 0.5em; display: flex; justify-content: center;">
+        <div>
+            <i class="fa fa-right-to-bracket"></i>
+            <span>Log In</span>
+        </div>
+    </div>
+    </a>
+    <a href="/signup" class="hover:bg-sky-500" >
+    <div style="padding: 0.5em; display: flex; justify-content: center;">
+        <div>
+            <i class="fa fa-user-plus"></i>
+        <span>Sign Up</span>
+        </div>
+    </div>
+</a>
+    {% endif %}
+</div>
+<div style="height: 3em;" ></div>

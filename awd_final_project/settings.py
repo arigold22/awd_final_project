@@ -25,8 +25,7 @@ SECRET_KEY = 'django-insecure-3=%=d(xa%zk=z)+jc-vc8lym_7_+5)y%%97wal1=^_rsb)0d)q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 # Application definition
 TAILWIND_APP_NAME = 'theme'
@@ -37,8 +36,8 @@ INTERNAL_IPS = [
 
 INSTALLED_APPS = [
     'social_network.apps.SocialNetworkConfig',
-    'tailwind',
     'theme',
+    'tailwind',
     'fontawesomefree',
     'django_browser_reload',
     'django.contrib.admin',

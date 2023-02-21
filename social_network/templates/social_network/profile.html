@@ -1,3 +1,4 @@
+{% load static tailwind_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,10 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
+    {% tailwind_css %}
+    <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
+    <script src="../static/js/menu_handling.js"></script>
 </head>
 <body>
+    {% include "./menu.html" %}
     {% if user.is_authenticated %}
-
     <div style="display: flex; align-items: flex-start; justify-content: flex-start;">
         <div style="position: relative; display: block; width: 100px; height: 100px;">
             {% load static %}

@@ -1,23 +1,45 @@
+{% load static tailwind_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    {% tailwind_css %}
+    <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
+    <script src="../static/js/menu_handling.js"></script>
 </head>
 <body>
-    <h1>Home</h1>
+    {% include "./menu.html" %}
     {% if user.is_authenticated %}
-    <h3>Hello {{fname}}</h3>
-    <h4>You're successfully logged in.</h4>
-    <a href="/profile">Profile</a>
-    <a href="/logout">Log Out</a>
-    {% else %}
-    <div>
-        <a href="/login">Log In</a>
-        <a href="/signup">Sign Up</a>
+    <div style="display: flex; align-items: center; justify-content: start; margin: 10px; box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); border-radius: .5em; padding: 1em">
+            {% load static %}
+            <img src="{{ profile_data.profile_image.url }}" style="border-radius: 100%;" alt="Profile Picture" width=100px> 
+            
+        <div style="width: 100%; padding-left: 1em;">
+            <input type="text" placeholder="Hey {{ fname }}, What's on your mind?" style="width: 100%; display: block; border-radius: 5px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1em;">
+                <div>
+                    <label for="identity" style="padding-right: 0.5em; font-weight: 600;">Posting As: </label>
+                <select name="identity" id="username" style="border-radius: 5px;">
+                    <option value="@{{ username }}">@{{ username }}</option>
+                    <option value="Anonymous">Anonymous</option>
+                </select>
+                </div>
+                <input type="button" value="Post" class="bg-sky-500 hover:bg-sky-700 py-2 px-8 text-white " style="cursor: pointer; margin-left: 1em; border-radius: 0.5em;">
+            </div>
+        </div>
     </div>
+    
     {% endif %}
+    {% if user.is_authenticated %}
+    
+    {% else %}
+    
+        
+    {% endif %}
+
 </body>
 </html>
