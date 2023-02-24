@@ -1,0 +1,31 @@
+#id_text{
+    box-sizing: border-box;
+    height: 100px;
+    width: 100%;
+    border: none;
+    overflow: auto;
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    resize: none;
+}
+
+#id_images{
+    border: none;
+    display: none;
+}
+#previewImages{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+#previewItem{
+    padding: 5px;
+    flex: 1;
+    width: 50%;
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
+}
+

@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
+from .models import Post
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(label = "Email")
@@ -21,3 +22,11 @@ class RegisterForm(UserCreationForm):
         if commit:
             user.save()
         return user
+    
+class PostForm(forms.ModelForm):
+    text = forms.CharField(max_length=1000, widget=forms.Textarea(attrs={'placeholder': 'What\'s on your mind?', 'onchange': 'character_count()', 'onkeypress': 'character_count()', 'onfocus': 'character_count()' ,'oninput': 'character_count()', 'onkeyup':'character_count()','onpaste':'character_count()'}))
+    anonymous = forms.BooleanField(required=False)
+    images = forms.ImageField(widget=forms.ClearableFileInput(attrs={'multiple': True, 'onchange': 'previewImages(this)'}))
+    class Meta:
+        model = Post
+        fields = ("text", "anonymous", )

@@ -10,32 +10,15 @@
     {% tailwind_css %}
     <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
     <script src="../static/js/menu_handling.js"></script>
+    <script src="../static/js/new_post.js"></script>
+    <link rel="stylesheet" href="../static/css/post.css">
 </head>
 <body>
     {% include "./menu.html" %}
     {% if user.is_authenticated %}
-    <div style="display: flex; align-items: center; justify-content: start; margin: 10px; box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); border-radius: .5em; padding: 1em">
-            {% load static %}
-            <img src="{{ profile_data.profile_image.url }}" style="border-radius: 100%;" alt="Profile Picture" width=100px> 
-            
-        <div style="width: 100%; padding-left: 1em;">
-            <input type="text" placeholder="Hey {{ fname }}, What's on your mind?" style="width: 100%; display: block; border-radius: 5px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1em;">
-                <div>
-                    <label for="identity" style="padding-right: 0.5em; font-weight: 600;">Posting As: </label>
-                <select name="identity" id="username" style="border-radius: 5px;">
-                    <option value="@{{ username }}">@{{ username }}</option>
-                    <option value="Anonymous">Anonymous</option>
-                </select>
-                </div>
-                <input type="button" value="Post" class="bg-sky-500 hover:bg-sky-700 py-2 px-8 text-white " style="cursor: pointer; margin-left: 1em; border-radius: 0.5em;">
-            </div>
-        </div>
+    <div style="width: 100%; display: flex; flex-direction: row; justify-content: center; padding: 10px;">
+        {% include "./new_post.html" %}
     </div>
-    
-    {% endif %}
-    {% if user.is_authenticated %}
-    
     {% else %}
     
         

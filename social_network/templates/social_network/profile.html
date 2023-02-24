@@ -1,31 +1,81 @@
 {% load static tailwind_tags %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile</title>
     {% tailwind_css %}
+    <link rel="stylesheet" href="../static/css/profile.css">
     <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
     <script src="../static/js/menu_handling.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     {% include "./menu.html" %}
     {% if user.is_authenticated %}
-    <div style="display: flex; align-items: flex-start; justify-content: flex-start;">
-        <div style="position: relative; display: block; width: 100px; height: 100px;">
-            {% load static %}
-            <img src="{{ profile_data.profile_image.url }}" alt="Profile Picture" width=100px>  
-            <button type="button">Edit Profile</button>
+    {% if profile_data.profile_cover_photo == "" %}
+      <div style="width: 100%; height: 250px; background-color: black; z-index: -1;">
+
+      </div>
+      {% else %}
+      <div style="border-bottom: black solid; width: 100%; height: 270px;">
+        <img src="{{ profile_data.profile_cover_photo.url }}" style="object-fit: cover; width: 100%; height: 100%; " alt="Profile Picture">
+      </div>
+    </div> 
+      <!-- <img
+      src="{{ profile_data.profile_cover_photo.url }}" style="filter:blur(1px);"
+      alt="Profile Cover"
+    /> -->
+      {% endif %}
+     
+    <div id="profileHeader"
+    >
+      {% load static %}
+      
+      <div style="border: black solid; width: 150px; height: 150px; border-radius: 50%; position: absolute; top: 230px;">
+        <img src="{{ profile_data.profile_image.url }}" style="object-fit: cover; width: 100%; height: 100%; border-radius: 50%;" alt="Profile Picture">
+      </div>
+      
+      <div
+        style="
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: start;
+          width: 100%;
+          margin-top: 60px;
+        "
+      >
+        <div 
+          style="
+            display: flex;
+            flex-direction: column;
+            padding-left: 10px;
+            flex: 1;
+          "
+        >
+          <span style="font-size: 1.2em; font-weight: 600;">{{ fname }} {{ lname }}</span>
+          <span style="font-size: 1em">@{{ username }}</span>
+          <span>{{ profile_data.profile_bio }}</span>
         </div>
-        <div style="display: flex; flex-direction: column; padding-left: 10px; ">
-            <span style="font-size: 1.5em;">{{ fname }} {{ lname }}</span>
-        <span style="font-size: 1em;">@{{ username }}</span>
-        <span>{{ profile_data.profile_bio }}</span>
-        </div>
+        <button style="margin: 1em; align-self: flex-end; justify-self: flex-end;"><i class="fa fa-edit"></i></button>
+      </div>
     </div>
-    
+    <div style="padding: 10px 10px 10px 30px; padding-bottom: 10px; border-top: black solid;">
+      <span id="currentStatus"> I am at work!!</span><br>
+      <a href="">View Previous Status Updates</a><br>
+      <!-- Update status automatically, like when a users phone is close to there partners phone, dnd. Or when at work, make status at work. -->
+    </div>
+    <div style="border-top: black solid; display: flex; flex-direction: row; justify-content: space-between;">
+      <input type="button" value="Posts" class="profileMenuButton" >
+      <input type="button" value="Comments" class="profileMenuButton" >
+      <input type="button" value="Likes" class="profileMenuButton" >
+      <input type="button" value="Media" class="profileMenuButton" >
+    </div>
+    <div id="allPosts" style="display: flex; flex-direction: row; padding-top: 10px; border-top: black solid;">
+      {% include "./post.html" %}
+    </div>
     {% endif %}
-</body>
+  </body>
 </html>
