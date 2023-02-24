@@ -26,7 +26,7 @@ class RegisterForm(UserCreationForm):
 class PostForm(forms.ModelForm):
     text = forms.CharField(max_length=1000, widget=forms.Textarea(attrs={'placeholder': 'What\'s on your mind?', 'onchange': 'character_count()', 'onkeypress': 'character_count()', 'onfocus': 'character_count()' ,'oninput': 'character_count()', 'onkeyup':'character_count()','onpaste':'character_count()'}))
     anonymous = forms.BooleanField(required=False)
-    images = forms.ImageField(widget=forms.ClearableFileInput(attrs={'multiple': True, 'onchange': 'previewImages(this)'}))
+    images = forms.ImageField(required=False,widget=forms.ClearableFileInput(attrs={'multiple': True, 'onchange': 'previewImages(this)'}))
     class Meta:
         model = Post
         fields = ("text", "anonymous", )

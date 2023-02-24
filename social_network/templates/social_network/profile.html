@@ -73,8 +73,10 @@
       <input type="button" value="Likes" class="profileMenuButton" >
       <input type="button" value="Media" class="profileMenuButton" >
     </div>
-    <div id="allPosts" style="display: flex; flex-direction: row; padding-top: 10px; border-top: black solid;">
-      {% include "./post.html" %}
+    <div id="allPosts" style="display: flex; flex-direction: column; border-top: black solid; align-items: center;  padding: 10px;">
+      {% for post in posts %}   
+          {% include "./post.html" %}
+      {% endfor %}
     </div>
     {% endif %}
   </body>

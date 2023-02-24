@@ -28,7 +28,6 @@ def post(request):
                 if 'anonymous' in request.POST:
                     post.anonymous = True
                 post.save()
-
                 for image in request.FILES.getlist('images'):
                     ("reached image loop")
                     post_image = PostImages()
@@ -78,8 +77,17 @@ def profile(request):
     user = request.user
     if user.is_authenticated:
         profile_data = Profile.objects.get(user=user)
+        posts = Post.objects.filter(username=user)
+        postImages = [PostImages.objects.filter(post=post) for post in posts]
         fname = user.first_name
         lname = user.last_name
-        context = {'fname': fname,'lname': lname,'profile_data': profile_data, 'username': user.username}
+        for post in posts:
+            print(post)
+            for image in postImages:
+                if len(image) != 0:
+                    if(image[0].post == post):
+                        print(image[0].image.url)
+                
+        context = {'fname': fname,'lname': lname,'profile_data': profile_data, 'username': user.username, 'posts': posts, 'postImages': postImages}
         return render(request, 'social_network/profile.html', context)
     return render(request, 'social_network/login.html', {})

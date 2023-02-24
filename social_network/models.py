@@ -23,3 +23,4 @@ class PostImages(models.Model):
     post_image_id = models.AutoField(primary_key=True, blank=False, null=False)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='post_pictures')
+
