@@ -1,4 +1,4 @@
-<div id="navbar" class="bg-blue-800 text-white fixed w-full flex flex-row justify-between items-center" style="height: 3em; z-index: 2; padding: 0; margin: 0;">
+<div id="navbar" class="bg-blue-800 text-white fixed w-full flex flex-row justify-between items-center" style="height: 3em; z-index: 3; padding: 0; margin: 0;">
     <div onclick="toggleMenu()" style="cursor:  pointer;" class="md:hidden">
         <div  style="padding: 0.5em;  padding-left: 1em;">
         <i class="fa fa-bars"></i>
@@ -34,7 +34,7 @@
             <span>Notifications</span>
         </div>
         </a>
-        <a href="/profile" class="hover:bg-sky-500" style="height: 3em; display: flex; flex-direction: column; justify-content: center; padding: 0.5em;">
+        <a href="/profile/{{user.username}}" class="hover:bg-sky-500" style="height: 3em; display: flex; flex-direction: column; justify-content: center; padding: 0.5em;">
         <div style="padding: 0.5em;">
             <i class="fa fa-user"></i>
             <span>Profile</span> 
@@ -63,11 +63,13 @@
         </a>
         {% endif %}
     </div>
-    <div  style="padding: 0.5em; padding-right: 1em;" class="md:hidden">
-        <i class="fa fa-magnifying-glass"></i>
+    <a href="/search"  class="md:hidden">
+        <div  style="padding: 0.5em;  padding-left: 1em;">
+            <i class="fa fa-magnifying-glass"></i>
+        </div>
+    </a>
     </div>
-    </div>
-    <div id="mobileMenu" class="bg-blue-800 text-white hidden fixed w-full" style="z-index: 1;">
+    <div id="mobileMenu" class="bg-blue-800 text-white hidden fixed w-full" style="z-index: 2;">
     <div style="height: 3em;">
         
     </div>
@@ -100,7 +102,7 @@
         </div>
     </div>
     </a>
-    <a href="/profile" class="hover:bg-sky-500">
+    <a href="/profile/{{user.username}}" class="hover:bg-sky-500">
         <div style="padding: 0.5em; display: flex; justify-content: center;">
             <div>
                 <i class="fa fa-user"></i>

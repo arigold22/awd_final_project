@@ -8,7 +8,8 @@ urlpatterns = [
     path('signup', views.signup, name='signup'),
     path('login', views.login, name='login'),
     path('logout', views.logout, name='logout'),
-    path('profile', views.profile, name='profile'),
+    path('profile/<username>', views.ProfileDetail.as_view(), name='profile'),
     path('post', views.post, name='post'),
+    path('search', views.search, name='search'),
     path("__reload__/", include("django_browser_reload.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

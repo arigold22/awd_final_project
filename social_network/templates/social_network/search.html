@@ -1,0 +1,110 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+    {% tailwind_css %}
+    <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
+    <script src="../static/js/menu_handling.js"></script>
+    <style>
+        #id_search{
+            width: 100%;
+            border-radius: 1em;
+        }
+        .searchMenu{
+            cursor: pointer;
+            margin-left: 10px;
+            border-radius: 0.5em;
+            background-color: #1e40af;
+            color: white;
+            padding: 0.5em 2em 0.5em 2em;
+        }
+        .searchMenu:hover{
+            background-color: #0ea5e9;
+        }
+    </style>
+    <script>
+        function openTab(event, tabName) {
+
+            tabContent = document.getElementsByClassName("tabContent");
+
+            for (i = 0; i < tabContent.length; i++) {
+                tabContent[i].style.display = "none";
+            }
+
+            tabMenu = document.getElementsByClassName("tabMenu");
+
+            for (i = 0; i < tabMenu.length; i++) {
+                tabMenu[i].className = tabMenu[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            event.currentTarget.className += " active";
+        }
+    </script>
+    <style>
+        .tabMenu:hover{
+            background-color:#1e40af;
+        }
+        .tab button.active {
+            background-color: #1e40af;
+        }
+    </style>
+</head>
+<body>
+    {% include "./menu.html" %}
+    <form action="/search" id="" method="post">
+        {% csrf_token %}
+        <div style="padding: 10px; display: flex;">
+            <div style="width:100%">
+                {{ form.search }}
+            </div>
+            <input type="submit" name="submit" value="Search" class="bg-sky-500 hover:bg-sky-700 text-white px-8 py-2 rounded-full" style="cursor: pointer; margin-left: 10px;"/>
+        </div>
+        <div style="padding-bottom: 10px; padding-left: 15px;">
+            {{ form.search.errors }}
+            {{ form.search.help_text }}
+        </div>
+    </form>
+    <div class="tab" style="display: flex; flex-direction: row; justify-content: space-around; background-color: #0ea5e9; color: white;">
+        <button class="tabMenu active" onclick="openTab(event, 'Users')" style="width: 100%; padding: 10px;">Users</button>
+        <button class="tabMenu" onclick="openTab(event, 'Posts')" style="width: 100%;  padding: 10px;">Posts</button>
+        <button class="tabMenu" onclick="openTab(event, 'Comments')" style="width: 100%; padding: 10px;">Comments</button>
+    </div>
+    <div id="Users" class="tabContent" style="display: block; padding: 10px;">
+        {% for profileS in profileSearch %}
+            <div id="userCard" style="box-shadow: 0px 0px 10px rgba(0,0,0,0.2);border-radius: 0.5em; margin: 10px; padding: 10px; display: flex;">
+                <div style="border: black solid; width: 50px; height: 50px; border-radius: 50%;">
+                    <img src="{{ profileS.profile_image.url }}" style="object-fit: cover; width: 100%; height: 100%; border-radius: 50%;" alt="Profile Picture">
+                  </div>
+                <div style="padding-left: 10px;">
+                    <a href="profile/{{ profileS.user.username }}">
+                        <div style="font-weight: 600; font-size: 1.2em;">
+                            {{ profileS.user.first_name }} {{ profileS.user.last_name }}
+                        </div>
+                    </a>
+                    <a href="profile/{{ profileS.user.username }}">
+                        <div style="color: grey; font-size: 1em;">
+                            @{{ profileS.user.username }}
+                        </div>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+    <div id="Posts" class="tabContent" style="display: none; padding: 10px;">
+        <div id="allPosts" style="display: flex; flex-direction: column; align-items: center;  padding: 10px;">
+            {% for post in posts %}   
+                {% include "./post.html" %}
+            {% endfor %}
+          </div>
+    </div>
+    
+    <div id="Comments" class="tabContent" style="display: none; padding: 10px;">
+        <h1>Comments</h1>
+    </div>
+</body>
+</html>

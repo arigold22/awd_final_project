@@ -30,3 +30,6 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ("text", "anonymous", )
+
+class SearchForm(forms.Form):
+    search = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Type something or someone to search for ...'}))
