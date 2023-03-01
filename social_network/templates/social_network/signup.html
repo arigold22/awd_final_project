@@ -32,7 +32,9 @@
               {{ form.lastname.label_tag }}
               {{ form.lastname }}
             </div>
-          {{ form.lastname.errors }}
+          <div style="color: red;">
+            {{ form.lastname.errors }}
+          </div>
           {{ form.lastname.help_text }}
           </div>
           <br>
@@ -41,7 +43,9 @@
               {{ form.email.label_tag }}
               {{ form.email }}
             </div>
-          {{ form.email.errors }}
+          <div style="color: red;">
+            {{ form.email.errors }} 
+          </div>
           {{ form.email.help_text }}
           </div>
         <div class="pt-4 flex sm:flex-row sm:items-center sm:justify-between flex-col sm:w-96 w-54">
@@ -50,7 +54,9 @@
         </div>
         <br>
           <div class="w-4/6">
-            {{ form.username.errors }}
+            <div style="color: red;">
+              {{ form.username.errors }}
+            </div>
             {{ form.username.help_text }}
           </div>
         <br>
@@ -60,7 +66,9 @@
         </div>
         <br>
         <div class="w-4/6">
-          {{ form.password1.errors }}
+          <div style="color:red;">
+            {{ form.password1.errors }}
+          </div>
           {{ form.password1.help_text }}
         </div>
         <br>
@@ -70,7 +78,9 @@
         </div>
         <br>
         <div class="w-4/6">
-          {{ form.password2.errors }}
+          <div style="color:red;">
+            {{ form.password2.errors }}
+          </div>
           {{ form.password2.help_text }}
         </div>
         <br>

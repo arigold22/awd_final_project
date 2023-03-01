@@ -118,7 +118,16 @@ def search(request):
             profileSearch = Profile.objects.filter(user__in=userSearch)
             posts = Post.objects.filter(text__icontains=form.cleaned_data['search'])
             postImages = [PostImages.objects.filter(post=post) for post in posts]
-            return render(request, 'social_network/search.html', {'form': form, 'profileSearch': profileSearch, 'posts': posts, 'postImages': postImages})
+            friends = Friendship.objects.filter(Q(from_user=user) | Q(to_user=user))
+            for profile in profileSearch:
+                for friend in friends:
+                    if profile.user == friend.from_user or profile.user == friend.to_user:
+                        if friend.status == True:
+                            profile.friend = True
+                        else:
+                            profile.requested = True
+                    
+            return render(request, 'social_network/search.html', {'form': form, 'profileSearch': profileSearch, 'posts': posts, 'postImages': postImages, 'friends':friends, 'user': user})
         else:
             return render(request, 'social_network/search.html', {'form': form})
     return render(request, 'social_network/login.html', {})
@@ -137,4 +146,17 @@ class ProfileDetail(DetailView):
         context['postImages'] = [PostImages.objects.filter(post=post) for post in context['posts']]
         return context
 
+def addfriend(request, username):
+    user = request.user
+    if user.is_authenticated:
+        friend = User.objects.get(username=username)
+        if friend != user:
+            friendship = Friendship()
+            friendship.from_user = user
+            friendship.to_user = friend
+            friendship.save()
+            messages.success(request, 'Friend request sent')
+    else:
+        messages.error(request, 'You must be logged in to add a friend')
+    return redirect('profile', username=username)
  

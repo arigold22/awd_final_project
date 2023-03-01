@@ -71,40 +71,63 @@
     <div class="tab" style="display: flex; flex-direction: row; justify-content: space-around; background-color: #0ea5e9; color: white;">
         <button class="tabMenu active" onclick="openTab(event, 'Users')" style="width: 100%; padding: 10px;">Users</button>
         <button class="tabMenu" onclick="openTab(event, 'Posts')" style="width: 100%;  padding: 10px;">Posts</button>
-        <button class="tabMenu" onclick="openTab(event, 'Comments')" style="width: 100%; padding: 10px;">Comments</button>
     </div>
     <div id="Users" class="tabContent" style="display: block; padding: 10px;">
+        {% if profileSearch|length != 0 %}
         {% for profileS in profileSearch %}
-            <div id="userCard" style="box-shadow: 0px 0px 10px rgba(0,0,0,0.2);border-radius: 0.5em; margin: 10px; padding: 10px; display: flex;">
+        <form action="/addfriend/{{ profileS.user.username }}" method="post">
+            {% csrf_token %}
+            {% if profileS.user.username != user.username %}
+            <div id="userCard" style="box-shadow: 0px 0px 10px rgba(0,0,0,0.2);border-radius: 0.5em; margin: 10px; padding: 10px; display: flex; ">
                 <div style="border: black solid; width: 50px; height: 50px; border-radius: 50%;">
+                    <a href="profile/{{ profileS.user.username }}">
                     <img src="{{ profileS.profile_image.url }}" style="object-fit: cover; width: 100%; height: 100%; border-radius: 50%;" alt="Profile Picture">
+                    </a>
                   </div>
-                <div style="padding-left: 10px;">
-                    <a href="profile/{{ profileS.user.username }}">
-                        <div style="font-weight: 600; font-size: 1.2em;">
-                            {{ profileS.user.first_name }} {{ profileS.user.last_name }}
-                        </div>
-                    </a>
-                    <a href="profile/{{ profileS.user.username }}">
-                        <div style="color: grey; font-size: 1em;">
-                            @{{ profileS.user.username }}
-                        </div>
-                    </a>
+                <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%; align-items: center;">
+                    <div style="padding-left: 10px;">
+                        <a href="profile/{{ profileS.user.username }}">
+                            <div style="font-weight: 600; font-size: 1.2em;">
+                                {{ profileS.user.first_name }} {{ profileS.user.last_name }}
+                            </div>
+                        </a>
+                        <a href="profile/{{ profileS.user.username }}">
+                            <div style="color: grey; font-size: 1em;">
+                                @{{ profileS.user.username }}
+                            </div>
+                        </a>
+                    </div>
+                    {% if profileS.friend == True %}
+                            <a href="profile/{{ profileS.user.username }}"><div class= "text-white px-8 py-2 rounded-full" style="background-color: black;"><span>Already Friends</span></div></a>
+                    {% else %}
+                        {% if profileS.requested == True %}
+                            <a href="profile/{{ profileS.user.username }}"><div class= "text-white px-8 py-2 rounded-full" style="background-color: black;"><span>Already Sent/Received</span></div></a>
+                        {% else %}
+                            <input type="submit" name="submit" value="Add Friend" class="bg-sky-500 hover:bg-sky-700 text-white px-8 py-2 rounded-full" style="cursor: pointer"/>
+                        {% endif %}
+                    {% endif %}
                 </div>
             </div>
+        </form>
+        {% endif %}
         {% endfor %}
+        {% else %}
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px;">
+                <h1>No Users Found</h1>
+            </div>
+        {% endif %}
     </div>
     
     <div id="Posts" class="tabContent" style="display: none; padding: 10px;">
         <div id="allPosts" style="display: flex; flex-direction: column; align-items: center;  padding: 10px;">
-            {% for post in posts %}   
-                {% include "./post.html" %}
-            {% endfor %}
+            {% if posts|length == 0 %}
+                <h1>No Posts Found</h1>
+            {% else %}
+                {% for post in posts %}   
+                    {% include "./post.html" %}
+                {% endfor %}
+            {% endif %}
           </div>
-    </div>
-    
-    <div id="Comments" class="tabContent" style="display: none; padding: 10px;">
-        <h1>Comments</h1>
     </div>
 </body>
 </html>
