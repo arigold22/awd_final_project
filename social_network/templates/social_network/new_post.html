@@ -13,10 +13,6 @@
     </div>
     <div style="padding-top: 10px; display: flex; flex-direction: row; justify-content: end; align-items: center;">
         <div>
-            {{ form.anonymous.label_tag }}
-            {{ form.anonymous }}
-        </div>
-        <div>
             {{ form.images }}
             <label for="id_images" style="cursor: pointer; margin-left: 1em;">
                 <i class="fa-solid fa-image" style="width: 25px; height: 25px; padding-top: 0.3em;"></i>
@@ -26,8 +22,6 @@
     </div>    
     {{ form.text.errors}}
     {{ form.text.help_text}}
-    {{ form.anonymous.errors }}
-    {{ form.anonymous.help_text }}
     {{ form.images.errors }}
     {{ form.images.help_text }}
 </form>

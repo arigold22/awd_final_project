@@ -35,11 +35,11 @@ INTERNAL_IPS = [
 ]
 
 INSTALLED_APPS = [
-    'social_network.apps.SocialNetworkConfig',
+    'social_network',
+    'channels',
     'theme',
     'tailwind',
     'fontawesomefree',
-    'django_browser_reload',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -56,7 +56,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
 ROOT_URLCONF = 'awd_final_project.urls'
@@ -78,6 +77,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'awd_final_project.wsgi.application'
+ASGI_APPLICATION = 'awd_final_project.routing.application'
 
 
 # Database
@@ -138,3 +138,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'social_network/media/')
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}

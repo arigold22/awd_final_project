@@ -25,11 +25,19 @@ class RegisterForm(UserCreationForm):
     
 class PostForm(forms.ModelForm):
     text = forms.CharField(max_length=1000, widget=forms.Textarea(attrs={'placeholder': 'What\'s on your mind?', 'onchange': 'character_count()', 'onkeypress': 'character_count()', 'onfocus': 'character_count()' ,'oninput': 'character_count()', 'onkeyup':'character_count()','onpaste':'character_count()'}))
-    anonymous = forms.BooleanField(required=False)
     images = forms.ImageField(required=False,widget=forms.ClearableFileInput(attrs={'multiple': True, 'onchange': 'previewImages(this)'}))
     class Meta:
         model = Post
-        fields = ("text", "anonymous", )
+        fields = ("text", )
 
 class SearchForm(forms.Form):
     search = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Type something or someone to search for ...'}))
+
+class UpdateProfileForm(forms.Form):
+    first_name = forms.CharField(max_length=100, required=False)
+    last_name = forms.CharField(max_length=100, required=False)
+    profile_image = forms.ImageField(required=False)
+    remove_profile_image = forms.BooleanField(required=False)
+    profile_cover_photo = forms.ImageField(required=False)
+    remove_cover_photo = forms.BooleanField(required=False)
+    profile_bio = forms.CharField(max_length=500, required=False, widget=forms.Textarea(attrs={'placeholder': 'Write something about yourself ...'}))

@@ -1,0 +1,174 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+    {% tailwind_css %}
+    <link rel="stylesheet" href="../static/css/profile.css">
+    <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
+    <script src="../static/js/menu_handling.js"></script>
+  </head>
+  <style>
+    .image:hover, .image_remove:hover {
+      background-color: rgba(0,0,0,0.7);
+      cursor: pointer;
+    }
+    .image_remove {
+      background-color: rgba(0,0,0,0.5);
+      border-radius: 100%;
+      width: 4em; 
+      height: 4em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 10px;
+    }
+    .image {
+      background-color: rgba(0,0,0,0.5);
+      border-radius: 100%;
+      width: 4em;
+      height: 4em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #cancel_button:hover{
+      background-color: rgb(112, 128, 144, 2);
+    }
+    #cancel_button{
+      cursor: pointer; background-color: lightslategray; color: white; padding: 0.5em 2em; border-radius: 100px;
+    }
+    #id_profile_image{
+      display: none;
+    }
+    #id_profile_cover_photo{
+      display: none;
+    }
+  </style>
+  <script>
+    function remove_profile_cover(value){
+      // value = document.getElementById("image_remove_checkbox");
+      console.log(value);
+      if(value == true){
+        document.getElementById("cover_photo").style.display = "none";
+        document.getElementById("black_cover").style.display = "block";
+      }
+    }
+    function profile_removed_checkbox(value){
+      console.log("reached");
+      document.getElementById("profile_photo").style.display = "none";
+      document.getElementById("default_profile").style.display = "block";
+      document.getElementById("profile_buttons").style.display = "none";
+    }
+  </script>
+  <body>
+    {% include "./menu.html" %}
+    {% if user.is_authenticated %} 
+    <form action="/edit-profile" method="post"  enctype="multipart/form-data" >
+      {% csrf_token %}
+    {% if profile_data.profile_cover_photo == "" %}
+    <div id="black_cover" style="width: 100%; height: 270px; background-color: black; z-index: -1;">
+      <div style="width: 100%; height: 270px;; background-color: rgba(100,100,100,0.5); z-index: 0; position: absolute; display: flex; align-items: center; justify-content: center;">
+        <label for="id_profile_cover_photo" style="" class="image">
+          <i class="fa-solid fa-image" style="font-size: 2em; color: rgba(255,255,255,0.7);"></i>
+        </label>
+        {{ form.profile_cover_photo}}
+      </div>
+    </div>
+      {% else %}
+      
+        {% csrf_token %}
+      <div id="black_cover" style="width: 100%; height: 270px; background-color: black; z-index: -1; display: none;">
+
+      </div>
+      <div id="cover_photo" style="border-bottom: black solid; width: 100%; height: 270px; ">
+        <div style="width: 100%; height: 270px;; background-color: rgba(100,100,100,0.5); z-index: 0; position: absolute; display: flex; align-items: center; justify-content: center;">
+          <label for="id_profile_cover_photo" style="" class="image">
+            <i class="fa-solid fa-image" style="font-size: 2em; color: rgba(255,255,255,0.7);"></i>
+          </label>
+          <input type="checkbox" name="image_remove_checkbox" id="image_remove_checkbox" style="display: none;" onclick="remove_profile_cover(this.checked)">
+          <label for="image_remove_checkbox" class="image_remove">
+            <i class="fa-solid fa-xmark" style="font-size: 2em; color: rgba(255,255,255,0.7);"></i>
+          </label>
+        </div>
+        {{ form.profile_cover_photo}}
+        <img src="{{ profile_data.profile_cover_photo.url }}" style="object-fit: cover; width: 100%; height: 100%; " alt="Profile Picture">
+      </div>
+    </div> 
+      {% endif %}
+     
+    <div id="profileHeader"
+    >
+      {% load static %}
+      
+      <div style="border: black solid; width: 150px; height: 150px; border-radius: 50%; position: absolute; top: 230px;">
+        <div id="profile_buttons" style="width: 150px; height: 150px; border-radius: 50%; position: absolute;  background-color: rgba(100,100,100,0.5); z-index:0; position: absolute; display: flex; align-items: center; justify-content: center; top: -1px; left: -1px;">
+          <label for="id_profile_image" class="image" style="width: 3em; height: 3em;" >
+            <i class="fa-solid fa-image" style="font-size: 1.5em; color: rgba(255,255,255,0.7);"></i>
+          </label>
+          <input type="checkbox" name="profile_remove_checkbox" id="profile_remove_checkbox" style="display: none;" onclick="profile_removed_checkbox(this.checked)">
+          <label for="profile_remove_checkbox" class="image_remove" style="height: 3em; width: 3em;" >
+            
+            <i class="fa-solid fa-xmark" style="font-size: 1.5em; color: rgba(255,255,255,0.7);"></i>
+          </label>
+        </div>
+        {{ form.profile_image }}
+        <img id="default_profile" src="/media/default.png" style="object-fit: cover; width: 100%; height: 100%; border-radius: 50%; display: none;" alt="Profile Picture">
+        <img id="profile_photo" src="{{ profile_data.profile_image.url }}" style="object-fit: cover; width: 100%; height: 100%; border-radius: 50%;" alt="Profile Picture">
+      </div>
+      
+      <div
+        style="
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: start;
+          width: 100%;
+          margin-top: 60px;
+        "
+      >
+        <div 
+          style="
+            display: flex;
+            flex-direction: column;
+            padding-left: 10px;
+            flex: 1;
+          "
+        >
+          <div style="display: flex; flex-direction: row;">
+            <div style="display: flex; flex-direction: column;">
+              <label for="first_name">First Name</label>
+              <input name="first_name" type="text" value="{{ profile_data.user.first_name }}">
+            </div>
+            <div style="display: flex; flex-direction: column; margin-left: 1em;">
+              <label for="last_name">Last Name</label>
+              <input name="last_name" type="text" value="{{ profile_data.user.last_name }}">
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; margin-top: 1em;">
+            <div style="display: flex; flex-direction: column; ">
+              <label for="Bio">Bio</label>
+              <textarea name="Bio" id="bio" placeholder="">{{ profile_data.profile_bio }}</textarea>
+            </div>
+            <div style="display: flex; margin: 10px; align-items: end; justify-content: end;">
+              <a id="cancel_button" name="submit" href="/profile/{{ profile_data.user.username }}"  style="">Cancel </a>
+              <input type="submit" name="submit" value="Update" class="bg-sky-500 hover:bg-sky-700 text-white px-8 py-2 rounded-full " style="cursor: pointer; margin-left: 1em;"/>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      
+    </div>
+  </form>
+    <div id="allPosts" style="display: flex; flex-direction: column; border-top: black solid; align-items: center;  padding: 10px;">
+      {% for post in posts %}   
+          {% include "./post.html" %}
+      {% endfor %}
+    </div>
+    {% endif %}
+  </body>
+</html>

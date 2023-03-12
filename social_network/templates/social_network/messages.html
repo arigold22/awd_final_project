@@ -1,0 +1,40 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% tailwind_css %}
+    <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
+    <script src="../static/js/menu_handling.js"></script>
+    <title>Messages</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    {% include "./menu.html" %}
+        
+
+        <div style="display:flex; height: 100%; flex: 1; flex-grow: 1; align-items: stretch; justify-content: stretch;">
+            <div id="users" style="background-color: aqua; width: 20%; height: 100%; min-width: 250px; padding: 10px;" >
+                <div style="padding: 10px; background-color: black; height: 4em; width: 100%; color: white;">
+                    <span>Aryan Mishra</span>
+                </div>
+            </div>
+            <div>
+    
+            </div>
+        </div>
+   
+    <script>
+        
+
+    </script>
+</body>
+</html>

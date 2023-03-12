@@ -12,28 +12,6 @@
 </head>
 <body>
     {% include "./menu.html" %}
-    <div  class="p-8 flex flex-col items-center justify-center">
-        <div style="box-shadow: 0px 0px 10px rgba(0,0,0,0.2); border-radius: 1%; padding: 3em;" class="rounded-2xl flex flex-col items-center">
-            <span class="text-xl font-bold">Log In</span>
-        <div class="pt-6" >
-            <form action="/login"  method="post" class="flex flex-col align-center justify-center">
-                {% csrf_token %}
-                <div class="flex">
-                    <div class="flex flex-col">
-                        <label for="username">Username</label>
-                        <input type="text" name="username" id="username" placeholder="Enter your username...">
-                    </div>
-                </div><br>
-                <div class="flex flex-col">
-                    <label for="pass1">Password</label>
-                    <input type="password" name="pass1" id="pass1" placeholder="Enter your password...">
-                </div>
-                <div class="flex items-center" style="padding-left: 3.3em;">
-                    <input type="submit" name="submit" value="Log In" class="bg-sky-500 hover:bg-sky-700 py-2 px-8 rounded-full mt-8 text-white " style="cursor: pointer"/>
-                </div>
-            </form>
-        </div>
-        </div>
-    </div>
+    {% include "./login_template.html" %}
 </body>
 </html>

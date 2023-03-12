@@ -1,0 +1,57 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% tailwind_css %}
+    <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
+    <script src="../static/js/menu_handling.js"></script>
+    <title>Notifications</title>
+</head>
+<body>
+    {% include "./menu.html" %}
+    <div id="notifications">
+        {% for friend_request in friend_requests %}
+                          
+                <form action="/accept_friend/{{ friend_request.from_user.username }}" method="post">
+                    {% csrf_token %}
+                    <div id="userCard" style="box-shadow: 0px 0px 10px rgba(0,0,0,0.2);border-radius: 0.5em; margin: 10px; padding: 10px; display: flex; ">
+                        <div style="border: black solid; width: 50px; height: 50px; border-radius: 50%;">
+                            <a href="profile/{{ friend_request.from_user.username }}">
+                            <img src="{{ friend_request.from_user.profile.profile_image.url }}" style="object-fit: cover; width: 100%; height: 100%; border-radius: 50%;" alt="Profile Picture">
+                            </a>
+                          </div>
+                        <div style="display: flex; flex-direction: row; justify-content: space-between; width: 100%; align-items: center;">
+                            <div style="padding-left: 10px;">
+                                <a href="profile/{{ friend_request.from_user.username }}">
+                                    <div style="font-weight: 600; font-size: 1.2em;">
+                                        {{ friend_request.from_user.first_name }} {{ friend_request.from_user.last_name }}
+                                    </div>
+                                </a>
+                                <a href="profile/{{ friend_request.from_user.username }}">
+                                    <div style="color: grey; font-size: 1em;">
+                                        @{{ friend_request.from_user.username }}
+                                    </div>
+                                </a>
+                                <a href="profile/{{ friend_request.from_user.username }}">
+                                    <div style=" font-size: 1em;">
+                                       You have a friend request from {{ friend_request.from_user.first_name }} {{ friend_request.from_user.last_name }}
+                                    </div>
+                                </a>
+                            </div>
+                            {% if friend_request.status == True %}
+                                    <a href="profile/{{ friend_request.from_user.username }}"><div class= "text-white px-8 py-2 rounded-full" style="background-color: black;"><span>Added Friend</span></div></a>
+                            {% else %}
+                                
+                                    <input type="submit" name="submit" value="Accept Friend" class="bg-sky-500 hover:bg-sky-700 text-white px-8 py-2 rounded-full" style="cursor: pointer"/>
+                            {% endif %}
+                        </div>
+                    </div>
+                </form>
+            
+        {% endfor %}
+    </div>
+</body>
+</html>

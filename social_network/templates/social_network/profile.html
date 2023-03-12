@@ -88,7 +88,7 @@
       </div>
     </div>
     {% if profile_data.profile_cover_photo == "" %}
-      <div style="width: 100%; height: 250px; background-color: black; z-index: -1;">
+      <div style="width: 100%; height: 270px; background-color: black; z-index: -1;">
 
       </div>
       {% else %}
@@ -130,7 +130,7 @@
           <span>{{ profile_data.profile_bio }}</span>
         </div>
         {% if profile_data.user == user %}
-        <button style="margin: 1em; align-self: flex-end; justify-self: flex-end;"><i class="fa fa-edit"></i></button>
+        <a href="/edit-profile" style="margin: 1em; align-self: flex-end; justify-self: flex-end;"><i class="fa fa-edit"></i></a>
         {% endif %}
       </div>
     </div>
