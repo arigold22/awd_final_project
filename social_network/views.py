@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login as dj_login, logout as dj_logout
-from .models import Profile, PostImages, Post, Friendship, Messages
+from .models import Profile, PostImages, Post, Friendship, Messages as model_Messages
 from .forms import RegisterForm, PostForm, SearchForm, UpdateProfileForm
 from django.views.generic import DetailView
 from django.db.models import Q
@@ -157,7 +157,6 @@ def edit_profile(request):
 def notifications(request):
     user = request.user
     friend_requests = Friendship.objects.filter(to_user=user)
-    print(friend_requests[0].status)
     for friend_request in friend_requests:
         friend_request.from_user.profile = Profile.objects.get(user=friend_request.from_user)
     if user.is_authenticated:
@@ -175,20 +174,36 @@ def accept_friend(request, username):
         return redirect('notifications')
     return redirect('notifications')
 
-def messages(request):
+def chat(request):
     user = request.user
+    loggedIn_profile = Profile.objects.get(user=request.user)
     if user.is_authenticated:
-        messages = Messages.objects.filter(Q(from_user=user) | Q(to_user=user))
+        messages = model_Messages.objects.filter(Q(from_user=user) | Q(to_user=user))
         messages = messages.order_by('date')
         users = messages.values_list('from_user', 'to_user').distinct()
         users = [User.objects.get(id=user[0]) if user[0] != user[1] else User.objects.get(id=user[1]) for user in users]
 
         for user in users:
             user.profile = Profile.objects.get(user=user)
-            user.last_message = Messages.objects.filter(Q(from_user=user) | Q(to_user=user)).order_by('-date')[0]
-            user.last_message.from_user.profile = Profile.objects.get(user=user.last_message.from_user)
-            user.last_message.to_user.profile = Profile.objects.get(user=user.last_message.to_user)
+            user.messagesOne = model_Messages.objects.filter(Q(from_user=user) & Q(to_user=request.user))
+            user.messagesTwo = model_Messages.objects.filter(Q(from_user=request.user) & Q(to_user=user))
+            user.messages = user.messagesOne | user.messagesTwo
+            user.messages = user.messages.order_by('date')
+            print(messages[0])
+            
         
-        return render(request, 'social_network/messages.html', {'users': users})
+        return render(request, 'social_network/messages.html', {'users': users, 'loggedIn_profile': loggedIn_profile })
         
+    return redirect('login')
+
+def send_message(request, username):
+    user = request.user
+    if user.is_authenticated:
+        if request.method == 'POST':
+            message = model_Messages()
+            message.from_user = user
+            message.to_user = User.objects.get(username=username)
+            message.message = request.POST['message']
+            message.save()
+            return redirect('chat')
     return redirect('login')

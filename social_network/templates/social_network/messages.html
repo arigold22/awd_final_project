@@ -11,25 +11,103 @@
     <title>Messages</title>
     <style>
         html, body {
-            height: 100%;
+            height: 96.9%;
             margin: 0;
             padding: 0;
         }
     </style>
 </head>
+<script>
+      function showChat(event, tabName) {
+
+tabContent = document.getElementsByClassName("tabContent");
+
+for (i = 0; i < tabContent.length; i++) {
+    tabContent[i].style.display = "none";
+}
+
+tabMenu = document.getElementsByClassName("tabMenu");
+
+for (i = 0; i < tabMenu.length; i++) {
+    tabMenu[i].className = tabMenu[i].className.replace(" active", "");
+}
+console.log(tabName)
+document.getElementById(tabName).style.display = "flex";
+event.currentTarget.className += " active";
+}
+</script>
 <body>
     {% include "./menu.html" %}
         
 
         <div style="display:flex; height: 100%; flex: 1; flex-grow: 1; align-items: stretch; justify-content: stretch;">
-            <div id="users" style="background-color: aqua; width: 20%; height: 100%; min-width: 250px; padding: 10px;" >
-                <div style="padding: 10px; background-color: black; height: 4em; width: 100%; color: white;">
-                    <span>Aryan Mishra</span>
+            <div id="users" style="background-color: lightblue; width: 20%; height: 100%; min-width: 250px;" class="tab">
+                <div style="padding: 10px 10px 0px 10px;">
+                    <div style="box-shadow: 0px 0px 10px rgba(0,0,0,0.2);border-radius: 0.5em; padding: 10px; background-color: white; height: 2em; width: 100%; color: black; display: flex; align-items: center; justify-content: center; ">
+                        <i class="fa-solid fa-plus"></i>
+                </div></div>
+                {% for user in users %}
+                {% if user.username != request.user.username %}
+                <div class="tabMenu" style="padding: 10px 10px 0px 10px; cursor: pointer;" onclick='showChat(event, "{{user.username}}")'>
+                    <div style="box-shadow: 0px 0px 10px rgba(0,0,0,0.2);border-radius: 0.5em; padding: 10px; background-color: white; height: 4.5em; width: 100%; color: black; display: flex; align-items: center; justify-content: start;">
+                        <div style="border: black solid; width: 50px; height: 50px; border-radius: 50%;">
+                            <img src="{{ user.profile.profile_image.url }}" style="object-fit: cover; width: 100%; height: 100%; border-radius: 50%;" alt="Profile Picture">
+                          </div>
+                        <div style="padding-left: 10px;">
+                            <span style="font-weight: 600;">{{ user.first_name }} {{user.last_name}}</span> <br>
+                            <span style="font-size: 0.8em; color: grey;">@{{ user.username }}</span>
+                        </div>
+                    </div>
                 </div>
+                {% endif %}
+                {% endfor %}
+                
             </div>
-            <div>
-    
+            {% for user in users %}
+            {% if user.username != request.user.username %}
+            <div style="background-color: rgb(117, 170, 191); width: 80%; height: 100%; justify-content: space-between; flex-direction: column; display: none; "  class="tabContent"  id="{{ user.username }}">
+                <div style="width: 100%; background-color: white; padding: 10px; display: flex;">
+                    <div style="border: black solid; width: 50px; height: 50px; border-radius: 50%;">
+                        <img src="{{ user.profile.profile_image.url }}" style="object-fit: cover; width: 100%; height: 100%; border-radius: 50%;" alt="Profile Picture">
+                      </div>
+                    <div style="padding-left: 10px;">
+                        <span style="font-weight: 600; font-size: 1.2em;">{{ user.first_name }} {{ user.last_name }}</span><br>
+                    <span style="color: grey; font-size: 0.8em;">@{{ user.username }}</span>
+                    </div>
+                </div>
+                <div id="logs" style="height: 100%; display: flex; flex-direction: column; justify-content: end;">
+                    {% for message in user.messages %}
+                        {% if message.from_user.username == request.user.username%}
+                        <div style="display: flex; align-items: start; margin: 10px; flex-direction: row-reverse; justify-content: end;">
+                            <div style="border: black solid; width: 50px; height: 50px; border-radius: 50%;margin-left: 10px;">
+                                <img src="{{ loggedIn_profile.profile_image.url }}" style="object-fit: cover; width: 100%; height: 100%; border-radius: 50%;" alt="Profile Picture">
+                              </div>
+                            <div style="box-shadow: 0px 0px 10px rgba(0,0,0,0.2);border-radius: 0.5em; padding: 10px; background-color: white;display: flex; flex-direction: column;">
+                                <span style="font-weight: 600;">{{ message.from_user.first_name }} {{ message.from_user.last_name }}</span>
+                                <span>{{ message.message }}</span>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div style="display: flex; align-items: start; margin: 10px; flex-direction: row;">
+                            <div style="border: black solid; width: 50px; height: 50px; border-radius: 50%;margin-right: 10px;">
+                                <img src="{{ message.from_user.profile.profile_image.url }}" style="object-fit: cover; width: 100%; height: 100%; border-radius: 50%;" alt="Profile Picture">
+                              </div>
+                            <div style="box-shadow: 0px 0px 10px rgba(0,0,0,0.2);border-radius: 0.5em; padding: 10px; background-color: white;display: flex; flex-direction: column;">
+                                <span style="font-weight: 600;">{{ message.from_user.first_name }} {{ message.from_user.last_name }}</span>
+                                <span>{{ message.message }}</span>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <form action="/send_message/{{ user.username }}" style="display: flex;" method="post">
+                    {% csrf_token %}
+                    <input type="text" style="flex: 3;" name="message" placeholder="Type a message for {{user.first_name}} {{user.last_name}}"> 
+                    <input type="submit" name="submit" value="Send" style="flex: 1; background-color: blueviolet; color: white; font-weight: 600;" > 
+                </form>  
             </div>
+            {% endif %}
+            {% endfor %}
         </div>
    
     <script>

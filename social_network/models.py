@@ -30,6 +30,10 @@ class Friendship(models.Model):
     to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='to_user')
     date = models.DateTimeField(auto_now_add=True)
     status = models.BooleanField(default=False, blank=False, null=False)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["from_user", "to_user"], name="unique_friendship")]
+
     def __str__(self):
         return self.from_user.username + ' is friends with ' + self.to_user.username
     

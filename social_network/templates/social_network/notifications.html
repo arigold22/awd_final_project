@@ -9,10 +9,18 @@
     <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
     <script src="../static/js/menu_handling.js"></script>
     <title>Notifications</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
 </head>
 <body>
     {% include "./menu.html" %}
-    <div id="notifications">
+    <div id="notifications" style="height: 93.9%;">
+        {% if postImage|length != 0 %}
         {% for friend_request in friend_requests %}
                           
                 <form action="/accept_friend/{{ friend_request.from_user.username }}" method="post">
@@ -52,6 +60,13 @@
                 </form>
             
         {% endfor %}
+        {% else %}
+            <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+                <div style="font-size: 1.5em; font-weight: 600; color: grey;">
+                    No Notifications
+                </div>
+            </div>
+        {% endif %}
     </div>
 </body>
 </html>
